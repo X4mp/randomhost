@@ -3,8 +3,11 @@
 # Requires: sed, awk
 # Usage: set-random-hostname
 
+# names-generator is a go script copied and modified from https://github.com/moby/moby/blob/master/pkg/namesgenerator/names-generator.go
+# I changed it to be a standalone script using `package main` and added a `func main()` to it.
+
 __set_random_hostname() {
-  local new_hostname=$(head -n1 < <(fold -w8 < <(tr -cd 'a-z0-9' < /dev/urandom)))
+  local new_hostname=$(names-generator)
   # set new hostname
   hostnamectl set-hostname "$new_hostname"
   # set new hostname in /etc/hosts
